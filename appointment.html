@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments | Abi Hospital</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+    footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: auto;
+      position: sticky;
+      bottom: 0;
+    }
+    .container {
+      margin-top: 40px;
+    }
+    table img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+    <div class="container-fluid">
+       <a class="navbar-brand" href="index.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/2966/2966487.png" 
+       alt="Abi Hospital Logo" width="45" height="45" 
+       class="me-2 rounded-circle">
+  Abi Hospital
+</a>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+          <li class="nav-item"><a class="nav-link active" href="appointment.html">Appointments</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Export Button -->
+  <div class="container mt-4 text-end">
+    <button id="exportPDF" class="btn btn-danger">Export as PDF</button>
+  </div>
+
+  <!-- Appointment Table -->
+  <div class="container">
+    <h2 class="text-center text-primary mb-4">All Booked Appointments</h2>
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by patient name...">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped text-center align-middle" id="appointmentTable">
+        <thead class="table-dark">
+          <tr>
+            <th>Photo</th>
+            <th>Patient Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Doctor</th>
+            <th>Appointment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">Edit Appointment</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editForm">
+            <input type="hidden" id="editIndex">
+            <div class="mb-3">
+              <label class="form-label">Patient Name</label>
+              <input type="text" id="editName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Appointment Date & Time</label>
+              <input type="datetime-local" id="editDateTime" class="form-control" required>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Abi Hospital | All Rights Reserved</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+  <script>
+    const appointmentTable = document.querySelector("#appointmentTable tbody");
+    let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+    // Load appointments
+    function loadAppointments() {
+      appointmentTable.innerHTML = "";
+      appointments.forEach((appt, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><img src="${appt.photo}" alt="photo"></td>
+          <td>${appt.name}</td>
+          <td>${appt.age}</td>
+          <td>${appt.gender}</td>
+          <td>${appt.contact}</td>
+          <td>${appt.email}</td>
+          <td>${appt.department}</td>
+          <td>${appt.doctor}</td>
+          <td>${appt.appointmentDateTime}</td>
+          <td>
+            <button class="btn btn-sm btn-primary me-2" onclick="editAppointment(${index})">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteAppointment(${index})">Delete</button>
+          </td>
+        `;
+        appointmentTable.appendChild(row);
+      });
+    }
+
+    // Delete Appointment
+    function deleteAppointment(index) {
+      if (confirm("Are you sure you want to delete this appointment?")) {
+        appointments.splice(index, 1);
+        localStorage.setItem("appointments", JSON.stringify(appointments));
+        loadAppointments();
+      }
+    }
+
+    // Edit Appointment
+    function editAppointment(index) {
+      const appt = appointments[index];
+      document.getElementById("editIndex").value = index;
+      document.getElementById("editName").value = appt.name;
+      document.getElementById("editDateTime").value = appt.appointmentDateTime;
+      new bootstrap.Modal(document.getElementById("editModal")).show();
+    }
+
+    document.getElementById("editForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const index = document.getElementById("editIndex").value;
+      appointments[index].name = document.getElementById("editName").value;
+      appointments[index].appointmentDateTime = document.getElementById("editDateTime").value;
+      localStorage.setItem("appointments", JSON.stringify(appointments));
+      loadAppointments();
+      bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
+      alert("Appointment updated successfully!");
+    });
+
+    // Search filter
+    document.getElementById("searchInput").addEventListener("keyup", function() {
+      const filter = this.value.toLowerCase();
+      document.querySelectorAll("#appointmentTable tbody tr").forEach(row => {
+        const name = row.cells[1].textContent.toLowerCase();
+        row.style.display = name.includes(filter) ? "" : "none";
+      });
+    });
+
+    // Export as neat PDF table optional features
+    document.getElementById("exportPDF").addEventListener("click", function () {
+      if (appointments.length === 0) {
+        alert("No appointments to export!");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(16);
+      doc.text("Abi Hospital - Appointment List", 14, 15);
+
+      const rows = appointments.map((a, i) => [
+        i + 1,
+        a.name,
+        a.age,
+        a.gender,
+        a.department,
+        a.doctor,
+        a.contact,
+        a.email,
+        a.appointmentDateTime
+      ]);
+
+      doc.autoTable({
+        head: [["#", "Name", "Age", "Gender", "Department", "Doctor", "Contact", "Email", "Appointment"]],
+        body: rows,
+        startY: 25,
+      });
+
+      doc.save("Abi_Hospital_Appointments.pdf");
+    });
+
+    loadAppointments();
+  </script>
+</body>
+</html>

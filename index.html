@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abi Hospital - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .navbar {
+      background-color: #000;
+    }
+    .navbar a, .navbar-brand {
+      color: aliceblue !important;
+    }
+
+    .hero {
+      background: url('image/Banner.jpg') no-repeat center center/cover;
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: black;
+    }
+    .hero-content {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      color: #343a40;
+      border-left: 5px solid #007bff;
+      padding-left: 10px;
+    }
+
+    .specialty-card {
+      transition: all 0.4s ease;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      height: 100%;
+    }
+    .specialty-card img {
+      height: 200px;
+      object-fit: cover;
+    }
+    .specialty-card:hover {
+      background-color: #007bff;
+      color: white;
+      transform: translateY(-8px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+    .specialty-card:hover .card-title {
+      color: white;
+    }
+
+    .doctor-table th {
+      background-color: #000;
+      color: white;
+    }
+
+    footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+  <img src="https://cdn-icons-png.flaticon.com/512/2966/2966487.png" 
+       alt="Abi Hospital Logo" width="45" height="45" 
+       class="me-2 rounded-circle">
+  Abi Hospital
+</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon bg-light"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="register.html">Registration</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="appointment.html">Appointments</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Abi Hospital</h1>
+      <p>Your Health, Our Priority</p>
+      <a href="register.html" class="btn btn-dark mt-3">Register Now</a>
+    </div>
+  </section>
+
+  <section class="container my-5">
+    <h2 class="text-center section-title">Our Specialties</h2>
+    <div class="row g-4">
+
+      <!-- Cardiology -->
+      <div class="col-md-3">
+        <div class="card specialty-card">
+          <img src="image/cardiology.jpg" class="card-img-top" alt="Cardiology">
+          <div class="card-body">
+            <h5 class="card-title text-center fw-bold">Cardiology</h5>
+            <p class="card-text text-justify">Abi Hospital’s Cardiology Department offers world-class care for heart conditions such as coronary artery disease, arrhythmias, and heart failure. We provide advanced diagnostics like ECG, echocardiogram, and angiography, along with expert treatment plans ensuring faster recovery and long-term cardiac wellness.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neurology -->
+      <div class="col-md-3">
+        <div class="card specialty-card">
+          <img src="image/neurology.jpg" class="card-img-top" alt="Neurology">
+          <div class="card-body">
+            <h5 class="card-title text-center fw-bold">Neurology</h5>
+            <p class="card-text text-justify">Our Neurology Department specializes in diagnosing and managing disorders of the brain and nervous system, including stroke, epilepsy, and Parkinson’s disease. Equipped with advanced MRI and EEG facilities, we ensure precise care and rehabilitation for complete neurological recovery.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orthopedics -->
+      <div class="col-md-3">
+        <div class="card specialty-card">
+          <img src="image/Orthopedics.jpg" class="card-img-top" alt="Orthopedics">
+          <div class="card-body">
+            <h5 class="card-title text-center fw-bold">Orthopedics</h5>
+            <p class="card-text text-justify">Abi Hospital’s Orthopedic Department treats bone, joint, and muscle disorders with advanced surgical and non-surgical techniques. From fractures to joint replacements, our specialists ensure swift recovery through expert care and physiotherapy support.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pediatrics -->
+      <div class="col-md-3">
+        <div class="card specialty-card">
+          <img src="image/pediatrics.jpg" class="card-img-top" alt="Pediatrics">
+          <div class="card-body">
+            <h5 class="card-title text-center fw-bold">Pediatrics</h5>
+            <p class="card-text text-justify">Our Pediatrics Department provides compassionate care for children, focusing on growth monitoring, vaccinations, and illness prevention. We create a comforting environment for every child while ensuring their overall health and well-being.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+   <!--Doctor Schedule optional features-->
+  <section class="container my-5">
+    <h2 class="text-center section-title">Doctors Availability Schedule</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped doctor-table text-center align-middle">
+        <thead>
+          <tr>
+            <th>Doctor Name</th>
+            <th>Specialization</th>
+            <th>Available Days</th>
+            <th>Timing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Dr. Radhi Dev</td><td>Cardiologist</td><td>Mon, Wed, Fri</td><td>9:00 AM - 2:00 PM</td></tr>
+          <tr><td>Dr. Reena Vijay</td><td>Cardiologist</td><td>Tue, Thu, Sat</td><td>2:00 PM - 7:00 PM</td></tr>
+          <tr><td>Dr. Teju</td><td>Neurologist</td><td>Mon - Fri</td><td>10:00 AM - 4:00 PM</td></tr>
+          <tr><td>Dr. Rocky</td><td>Neurologist</td><td>Tue, Thu, Sat</td><td>3:00 PM - 8:00 PM</td></tr>
+          <tr><td>Dr. Abi</td><td>Orthopedic Surgeon</td><td>Mon, Wed, Fri</td><td>9:00 AM - 1:00 PM</td></tr>
+          <tr><td>Dr. Muthu</td><td>Orthopedic Specialist</td><td>Tue, Thu, Sat</td><td>1:00 PM - 6:00 PM</td></tr>
+          <tr><td>Dr. Madhu</td><td>Pediatrician</td><td>Mon - Sat</td><td>9:00 AM - 3:00 PM</td></tr>
+          <tr><td>Dr. Mothi</td><td>Pediatrician</td><td>Mon - Fri</td><td>3:00 PM - 8:00 PM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Abi Hospital | All Rights Reserved
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
